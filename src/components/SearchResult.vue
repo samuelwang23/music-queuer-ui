@@ -5,13 +5,13 @@
         <img :src=album.art :alt=album.title >       
      </figure>
    </div>
-    <div>
+    <div class="result-text">
       <div>
         <div>
           <div><a>{{album.title}}</a></div>
           <div>
             {{album.artist}}<br>
-            <em>Released {{album.release}}</em>
+            <span class="release-date">Released {{album.release}}</span>
           </div>
         </div>
       </div>
@@ -30,5 +30,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .result-text{
+    border: 3px black solid;
+  }
+  .release-date{
+    color: grey;
+  }
+  .card{
+    flex: 1;
+    padding: 1em;
+    display: block;
+  }
 </style>
