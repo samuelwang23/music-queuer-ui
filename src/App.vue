@@ -1,16 +1,17 @@
 <template>
- 
-   <Search label="Search" placeholder="Search"/>
+  <Queue/>
+  <Search placeholder="Search"/>
   
 </template>
 
 <script>
 
+import Queue from './components/Queue.vue';
 import Search from './components/Search.vue';
 export default {
   name: 'App',
   components: {
-  
+    Queue,
     Search
   }
 }

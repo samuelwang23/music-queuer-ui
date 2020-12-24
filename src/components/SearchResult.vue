@@ -12,6 +12,7 @@
           <div>
             {{album.artist}}<br>
             <span class="release-date">Released {{album.release}}</span>
+            
           </div>
         </div>
       </div>

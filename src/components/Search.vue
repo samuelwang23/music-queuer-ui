@@ -42,7 +42,7 @@
 <script>
 import SearchResult from './SearchResult.vue';
 export default {
-  name: 'Search',
+  name: 'Search', 
  
   components: {
     SearchResult
@@ -59,6 +59,7 @@ export default {
 <style scoped>
   .search-results{
     display: flex;
+    flex-wrap: wrap;
   }
   input{
     width: 50%;
