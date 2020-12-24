@@ -1,10 +1,11 @@
 <template>  
     <tr class="queue-item">
+        <td> <span class="order"> {{position}} </span> </td>
         <td> <img :src=album.art :alt=album.title> </td>
         <td> <a>{{album.title}}</a> </td>
         <td> <span class="artist-name"> {{album.artist}}</span> </td>
         <td> <span class="release-date">Released {{album.release}}</span> </td> 
-        <td> <span class="addition-date">Added to the queue {{added}}</span> </td> 
+        <td> <span class="addition-date"><em>Added to the queue on {{added}} by {{contributor}}</em></span> </td> 
     </tr> 
 </template>
 
@@ -15,6 +16,8 @@ export default {
   props: {
     album: Object,
     added: String,
+    position: String,
+    contributor: String,
   }
 }
 </script>
