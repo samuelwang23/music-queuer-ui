@@ -1,5 +1,8 @@
 <template>
+  <font-awesome-icon icon="user-secret" />
+
   <Queue/>
+  <font-awesome-icon icon="shopping-cart" />
   <Search placeholder="Search"/>
   
 </template>

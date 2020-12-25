@@ -1,15 +1,22 @@
 <template>  
     <tr class="queue-item">
+        <td class = "controls"> <font-awesome-icon icon="caret-up" size="2x" /> <font-awesome-icon icon="caret-down" size="2x"/> </td>
         <td> <span class="order"> {{position}} </span> </td>
         <td> <img :src=album.art :alt=album.title> </td>
         <td> <a>{{album.title}}</a> </td>
         <td> <span class="artist-name"> {{album.artist}}</span> </td>
         <td> <span class="release-date">Released {{album.release}}</span> </td> 
         <td> <span class="addition-date"><em>Added to the queue on {{added}} by {{contributor}}</em></span> </td> 
-    </tr> 
+    </tr>
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faCaretUp);
+library.add(faCaretDown);
 
 export default {
   name: 'QueueItem',
@@ -18,6 +25,9 @@ export default {
     added: String,
     position: String,
     contributor: String,
+  },
+  components: {
+    FontAwesomeIcon
   }
 }
 </script>
@@ -35,5 +45,11 @@ export default {
 
   img{
       height: 50px;
+  }
+  .controls{
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>
