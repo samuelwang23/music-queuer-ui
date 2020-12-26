@@ -1,57 +1,42 @@
 <template>
   <div class="search-wrapper">
-      <input type="text" v-model="search" :placeholder=placeholder />
+      <input type="text" v-model="search" :placeholder=placeholder @change="find"/>
   </div>
   <div class="search-results">
-   <SearchResult 
-    :album="{
-      art: 'https://2.imimg.com/data2/XY/WO/MY-769630/chlorophlly-green-colour-oil-soluble-250x250.jpg',
-      title: 'Album Title',
-      artist: 'Artist Name',
-      release: '12.20.2020'
-    }" 
-    />
-    <SearchResult 
-    :album="{
-      art: 'https://2.imimg.com/data2/XY/WO/MY-769630/chlorophlly-green-colour-oil-soluble-250x250.jpg',
-      title: 'Album Title',
-      artist: 'Artist Name',
-      release: '12.20.2020'
-    }" 
-    />
-    <SearchResult 
-    :album="{
-      art: 'https://2.imimg.com/data2/XY/WO/MY-769630/chlorophlly-green-colour-oil-soluble-250x250.jpg',
-      title: 'Album Title',
-      artist: 'Artist Name',
-      release: '12.20.2020'
-    }" 
-    />
-    <SearchResult 
-    :album="{
-      art: 'https://2.imimg.com/data2/XY/WO/MY-769630/chlorophlly-green-colour-oil-soluble-250x250.jpg',
-      title: 'Album Title',
-      artist: 'Artist Name',
-      release: '12.20.2020'
-    }" 
-    />
-    
+    <search-result v-for="result in results" :album="result" :key="result.artist"/>
   </div>
 </template>
 
 <script>
 import SearchResult from './SearchResult.vue';
+import Api from '../utils/api.js';
 export default {
   name: 'Search', 
  
   components: {
     SearchResult
   },
-
+  methods:{
+    find(){
+      if(this.search.length > 3){
+        Api.get("search?q="+this.search).then(result => this.results = result.data);
+      }
+    },
+  },
+  data: function(){
+    return {
+      search: "",
+      results: []
+    };
+  },  
    props: {
     placeholder: String,
   }
 }
+
+
+
+
 </script>
     
 

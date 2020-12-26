@@ -1,32 +1,31 @@
 <template>
-  <font-awesome-icon icon="user-secret" />
-
-  <Queue/>
-  <font-awesome-icon icon="shopping-cart" />
-  <Search placeholder="Search"/>
-  
+  <div id="nav">
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link> |
+    <router-link to="/playlist">Playlist</router-link>
+  </div>
+  <router-view/>
 </template>
 
-<script>
-
-import Queue from './components/Queue.vue';
-import Search from './components/Search.vue';
-export default {
-  name: 'App',
-  components: {
-    Queue,
-    Search
-  }
-}
-</script>
-
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>
