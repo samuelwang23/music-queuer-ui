@@ -1,7 +1,21 @@
 <template>
   <div class="card">
-    {{album.artist}}
-
+    <div>
+      <figure>
+        <img :src=album.art :alt=album.title >       
+     </figure>
+   </div>
+    <div class="result-text">
+      <div>
+        <div>
+          <div><a>{{album.title}}</a></div>
+          <div>
+            {{album.artist}}<br>
+            <span class="release-date">Released {{album.release}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
