@@ -44,9 +44,6 @@ export default {
   components: {
       QueueItem,
   },
-
-   props: {
-  }
 }
 </script>
     

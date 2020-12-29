@@ -23,6 +23,13 @@ const routes = [
     component: function () {
       return import('../views/Playlist.vue')
     }
+  },
+  {
+    path: '/queue',
+    name: 'Queue',
+    component: function () {
+      return import('../views/Queue.vue')
+    }
   }
 ]
 
