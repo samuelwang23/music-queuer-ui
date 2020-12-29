@@ -14,16 +14,35 @@
             <span class="release-date">Released {{album.release}}</span>
           </div>
         </div>
+        <div>
+          <font-awesome-icon icon="plus-circle" @click="addToQueue()" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+library.add(faPlusCircle);
+
+import Api from '../utils/api.js';
+
 export default {
   name: 'SearchResult',
   props: {
     album: Object,
+  },
+  components: {
+    FontAwesomeIcon
+  },
+  methods:{
+    addToQueue(){
+      Api.post("album?cover="+this.album.art+"&link="+this.album.link+"&release="+this.album.release);
+    }
   }
 }
 </script>
