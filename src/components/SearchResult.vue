@@ -41,7 +41,8 @@ export default {
   },
   methods:{
     addToQueue(){
-      Api.post("album?cover="+this.album.art+"&link="+this.album.link+"&release="+this.album.release);
+      Api.post("album?cover="+this.album.art+"&link="+this.album.link+"&release="+this.album.release)
+        .then(function (response){ Api.post("queue?item_type=album&item_id="+response.data+"&contributor=self&status=active");});
     }
   }
 }
