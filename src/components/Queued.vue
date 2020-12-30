@@ -1,6 +1,7 @@
 <template>
   <div class="queue-wrapper">
     <tr class="queue-item">
+        <th>  </th>
         <th> <span class="order"> # </span> </th>
         <th>  </th>
         <th> Album Title </th>
@@ -8,34 +9,12 @@
         <th> Release date </th> 
         <th> </th> 
     </tr> 
-    <QueueItem 
-        :album="{
-            art: 'https://2.imimg.com/data2/XY/WO/MY-769630/chlorophlly-green-colour-oil-soluble-250x250.jpg',
-            title: 'Album Title',
-            artist: 'Artist Name',
-            release: '12.20.2020',
-        }"
-        
-        added="12.24.2020"
-        position="1"
-        contributor="John Doe"
-    />
-    <QueueItem 
-        :album="{
-            art: 'https://2.imimg.com/data2/XY/WO/MY-769630/chlorophlly-green-colour-oil-soluble-250x250.jpg',
-            title: 'Album Title',
-            artist: 'Artist Name',
-            release: '12.20.2020',
-        }"
-        added="12.24.2020"
-        position="2"
-        contributor="John Doe"
-    />
+    <queue-item v-for="result in results" :item="result" :key="result.position"/>
   </div>
 </template>
 
 <script>
-
+import Api from '../utils/api.js';
 import QueueItem from './QueueItem.vue';
 
 export default {
@@ -44,6 +23,14 @@ export default {
   components: {
       QueueItem,
   },
+  methods:{
+    
+  },
+  data: function(){
+    return {
+      results: Api.get("queue").then(result => this.results = result.data)
+    };
+  }, 
 }
 </script>
     
