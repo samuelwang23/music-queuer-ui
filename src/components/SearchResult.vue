@@ -41,10 +41,10 @@ export default {
   },
   methods:{
     addToQueue(){
-      Api.post("album?cover="+this.album.art+"&link="+this.album.link+"&release="+this.album.release)
-        .then(function (response){ Api.post("queue?item_type=album&item_id="+response.data+"&contributor=self&status=active");});
+      Api.post('album',{cover: this.album.art, link: this.album.link, release: this.album.release, title:this.album.title, artist: this.album.artist})
+         .then(r => Api.post('queue', {item_type: 'album', item_id: r.data, contributor: 'self', status: 'active'}));
     }
-  }
+  },
 }
 </script>
 
