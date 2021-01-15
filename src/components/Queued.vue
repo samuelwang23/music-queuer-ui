@@ -23,12 +23,12 @@ export default {
   components: {
       QueueItem,
   },
-  methods:{
-    
+  created(){
+    Api.get("queue").then(result => this.results = result.data);
   },
   data: function(){
     return {
-      results: Api.get("queue").then(result => this.results = result.data)
+      results: [],
     };
   }, 
 }

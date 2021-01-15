@@ -2,10 +2,22 @@
   <div class="card">
     <div>
       <figure>
-        <img :src=album.art :alt=album.title >       
+        <img :src=album.cover :alt=album.title >       
      </figure>
    </div>
-    <div class="result-text">
+    <div class="add-text" v-if="adding == true">
+      <p>Add "{{album.title}}" to queue?</p>
+      <div>
+        <label> Contributor: </label>
+        <input placeholder="Contributor" v-model="contributor"/>
+      </div>
+      <div class = "icons">
+        <font-awesome-icon icon="check-square" size="2x" @click="addToQueue()" />
+        <font-awesome-icon icon="window-close" size="2x" @click="closeAdd()" />
+      </div>
+
+    </div>
+    <div class="result-text" v-else>
       <div>
         <div>
           <div><a>{{album.title}}</a></div>
@@ -15,20 +27,20 @@
           </div>
         </div>
         <div>
-          <font-awesome-icon icon="plus-circle" @click="addToQueue()" />
+          <font-awesome-icon icon="plus-circle" size="2x" @click="openAdd()" />
         </div>
       </div>
+    
     </div>
   </div>
 </template>
 
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle,faWindowClose, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faPlusCircle);
-
+library.add(faPlusCircle, faWindowClose, faCheckSquare);
 import Api from '../utils/api.js';
 
 export default {
@@ -41,9 +53,21 @@ export default {
   },
   methods:{
     addToQueue(){
-      Api.post('album',{cover: this.album.art, link: this.album.link, release: this.album.release, title:this.album.title, artist: this.album.artist})
-         .then(r => Api.post('queue', {item_type: 'album', item_id: r.data, contributor: 'self', status: 'active'}));
+      Api.post('album',this.album)
+        .then(r => Api.post('queue', {item_type: 'album', item_id: r.data["id"], contributor: this.contributor, status: 'active'}));
+    },
+    openAdd(){
+      this.adding = true;
+    },
+    closeAdd(){
+      this.adding = false;
     }
+  },
+  data: function(){
+    return {
+      adding: false,
+      contributor: "",
+    };
   },
 }
 </script>
@@ -60,5 +84,8 @@ export default {
     flex: 1;
     padding: 1em;
     display: block;
+  }
+  svg{
+    margin: 5px;
   }
 </style>

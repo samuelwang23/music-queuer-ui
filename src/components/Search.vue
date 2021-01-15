@@ -14,7 +14,7 @@ export default {
   name: 'Search', 
  
   components: {
-    SearchResult
+    SearchResult,
   },
   methods:{
     find(){
@@ -46,6 +46,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
   }
+
   input{
     width: 50%;
     font-size: 1.5em;

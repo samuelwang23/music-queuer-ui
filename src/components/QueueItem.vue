@@ -31,9 +31,12 @@ export default {
   components: {
     FontAwesomeIcon
   },
+  created (){
+    Api.get(this.item.item_type+"/"+this.item.item_id).then(result => this.album = result.data);
+  },
   data: function(){
     return {
-      album: Api.get(this.item.item_type+"/"+this.item.item_id).then(result => this.album = result.data)
+      album: []
     };
   }, 
 }
