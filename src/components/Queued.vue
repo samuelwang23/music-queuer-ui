@@ -1,5 +1,7 @@
 <template>
+
   <div class="queue-wrapper">
+    
     <tr class="queue-item">
         <th>  </th>
         <th> <span class="order"> # </span> </th>
@@ -9,8 +11,10 @@
         <th> Release date </th> 
         <th> </th> 
     </tr> 
+    
     <queue-item v-for="result in results" :item="result" :key="result.position"/>
   </div>
+  
 </template>
 
 <script>
@@ -24,7 +28,7 @@ export default {
       QueueItem,
   },
   created(){
-    Api.get("queue").then(result => this.results = result.data);
+    Api.get("queue/0x08439056572f11ebb62338002586822d").then(result => this.results = result.data[0]["queue_item"]);
   },
   data: function(){
     return {

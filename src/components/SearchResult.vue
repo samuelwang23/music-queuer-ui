@@ -54,7 +54,8 @@ export default {
   methods:{
     addToQueue(){
       Api.post('album',this.album)
-        .then(r => Api.post('queue', {item_type: 'album', item_id: r.data["id"], contributor: this.contributor, status: 'active'}));
+        .then(r => Api.post('queue/08439056572f11ebb62338002586822d', {item_type: 'album', item_id: r.data["id"], contributor: this.contributor, status: 'active'}));
+      this.closeAdd();
     },
     openAdd(){
       this.adding = true;
