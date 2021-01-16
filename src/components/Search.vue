@@ -3,7 +3,7 @@
       <input type="text" v-model="search" :placeholder=placeholder @input="find" @keydown.enter="isOpen = false" @keydown.esc="isOpen = false" />
   </div>
   <div class="search-results">
-    <search-result v-for="result in results" :album="result" :key="result.artist"/>
+    <search-result v-for="result in results" :album="result" :queue="queue" @selected="addToQueue" :key="result.i"/>
   </div>
 </template>
 
@@ -23,17 +23,30 @@ export default {
       return _debounce(this.find, 500);
     }
   },
+  async mounted(){
+    let {data} = await Api.get('queue/08439056572f11ebb62338002586822d');
+    this.queue = data[0];
+    console.log(this.queue);
+  },
   methods:{
     find(){
       if(this.search.length > 0){
         Api.get("search?q="+this.search).then(result => this.results = result.data);
       }
     },
+    addToQueue(album, contributor){
+      Api.post('album', album)
+        .then(r => {
+          this.queue.queue_item.push( {item_type: 'album', item_id: r.data["id"], contributor: contributor, status: 'active'} );
+          Api.put("queue", this.queue).then(r => console.log(r));
+        });
+    },
   },
   data: function(){
     return {
       search: "",
-      results: []
+      results: [],
+      queue: [],
     };
   },  
    props: {

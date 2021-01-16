@@ -1,5 +1,4 @@
 <template>
-
   <div class="queue-wrapper">
     
     <tr class="queue-item">
@@ -27,8 +26,21 @@ export default {
   components: {
       QueueItem,
   },
+  methods:{
+    compare(){
+      return function(a, b) {    
+        if (a.position > b.position) {    
+            return 1;    
+        } 
+        else if (a.position < b.position) {    
+            return -1;    
+        }    
+        return 0;    
+      };
+    }
+  },
   created(){
-    Api.get("queue/0x08439056572f11ebb62338002586822d").then(result => this.results = result.data[0]["queue_item"]);
+    Api.get("queue/0x08439056572f11ebb62338002586822d").then(result => this.results = result.data[0]["queue_item"].sort((a1, a2) => a1.position < a2.position ? -1: 1));
   },
   data: function(){
     return {
@@ -36,6 +48,8 @@ export default {
     };
   }, 
 }
+
+
 </script>
     
 

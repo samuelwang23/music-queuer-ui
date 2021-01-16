@@ -12,7 +12,7 @@
         <input placeholder="Contributor" v-model="contributor"/>
       </div>
       <div class = "icons">
-        <font-awesome-icon icon="check-square" size="2x" @click="addToQueue()" />
+        <font-awesome-icon icon="check-square" size="2x" @click="$emit('selected', album, contributor); adding=false;" />
         <font-awesome-icon icon="window-close" size="2x" @click="closeAdd()" />
       </div>
 
@@ -41,7 +41,6 @@ import { faPlusCircle,faWindowClose, faCheckSquare } from '@fortawesome/free-sol
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 library.add(faPlusCircle, faWindowClose, faCheckSquare);
-import Api from '../utils/api.js';
 
 export default {
   name: 'SearchResult',
@@ -53,8 +52,6 @@ export default {
   },
   methods:{
     addToQueue(){
-      Api.post('album',this.album)
-        .then(r => Api.post('queue/08439056572f11ebb62338002586822d', {item_type: 'album', item_id: r.data["id"], contributor: this.contributor, status: 'active'}));
       this.closeAdd();
     },
     openAdd(){
@@ -68,6 +65,7 @@ export default {
     return {
       adding: false,
       contributor: "",
+      queue: [],
     };
   },
 }
