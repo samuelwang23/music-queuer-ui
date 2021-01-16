@@ -1,6 +1,6 @@
 <template>
   <div class="search-wrapper">
-      <input type="text" v-model="search" :placeholder=placeholder @change="find"/>
+      <input type="text" v-model="search" :placeholder=placeholder @input="find" @keydown.enter="isOpen = false" @keydown.esc="isOpen = false" />
   </div>
   <div class="search-results">
     <search-result v-for="result in results" :album="result" :key="result.artist"/>
@@ -10,15 +10,22 @@
 <script>
 import SearchResult from './SearchResult.vue';
 import Api from '../utils/api.js';
+import _debounce from 'lodash.debounce';
+
 export default {
   name: 'Search', 
  
   components: {
     SearchResult,
   },
+  computed:{
+    debounceChange(){
+      return _debounce(this.find, 500);
+    }
+  },
   methods:{
     find(){
-      if(this.search.length > 3){
+      if(this.search.length > 0){
         Api.get("search?q="+this.search).then(result => this.results = result.data);
       }
     },
