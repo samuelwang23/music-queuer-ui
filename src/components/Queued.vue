@@ -1,6 +1,5 @@
 <template>
   <div class="queue-wrapper">
-    
     <tr class="queue-item">
         <th>  </th>
         <th> <span class="order"> # </span> </th>
@@ -10,8 +9,7 @@
         <th> Release date </th> 
         <th> </th> 
     </tr> 
-    
-    <queue-item v-for="result in results" :item="result" :key="result.position"/>
+    <queue-item v-for="item in items" :item="item" :key="item.id" @up="up" @down="down"/>    
   </div>
   
 </template>
@@ -37,14 +35,34 @@ export default {
         }    
         return 0;    
       };
+    },
+    up(item){
+      let a = Math.max(item.position - 2, 0), b = item.position - 1;
+      [this.items[b], this.items[a]] = [this.items[a], this.items[b]];
+      this.items[a].position = a + 1,this.items[b].position = b + 1;
+      this.queue["queue_item"] = this.items;
+      Api.put("queue", this.queue);
+    },
+    down(item){
+      let a = Math.min(item.position, this.items.length - 1), b = item.position - 1;
+      [this.items[b], this.items[a]] = [this.items[a], this.items[b]];
+      this.items[a].position = a + 1,this.items[b].position = b + 1;
+      this.queue["queue_item"] = this.items;
+      Api.put("queue", this.queue);
     }
   },
   created(){
-    Api.get("queue/0x08439056572f11ebb62338002586822d").then(result => this.results = result.data[0]["queue_item"].sort((a1, a2) => a1.position < a2.position ? -1: 1));
+    Api.get("queue/0x08439056572f11ebb62338002586822d").then(result => {
+      this.queue = result.data[0];
+      //this.queue[0]["queue_item"]; 
+      this.items = this.queue["queue_item"].sort((a1, a2) => a1.position < a2.position ? -1: 1);
+      console.log(this.items);
+      });
   },
   data: function(){
     return {
-      results: [],
+      queue: [],
+      items: [],
     };
   }, 
 }

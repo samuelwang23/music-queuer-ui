@@ -1,7 +1,7 @@
 <template>  
   
     <tr class="queue-item" >
-        <td class = "controls"> <font-awesome-icon icon="caret-up" size="2x" /> <font-awesome-icon icon="caret-down" size="2x"/> </td>
+        <td class = "controls"> <font-awesome-icon icon="caret-up" size="2x" @click="$emit('up', item)"/> <font-awesome-icon icon="caret-down" size="2x" @click="$emit('down', item)" /> </td>
         <td> <span class="order"> {{item.position}} </span> </td>
         <td> <img :src="album.cover" :alt="album.title"></td>
         <td> <a>{{album.title}}</a> </td>
