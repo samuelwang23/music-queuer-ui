@@ -2,6 +2,7 @@
   <div class="queue-wrapper">
     <tr class="queue-item">
         <th>  </th>
+        <th>  </th>
         <th> <span class="order"> # </span> </th>
         <th>  </th>
         <th> Album Title </th>
@@ -9,7 +10,7 @@
         <th> Release date </th> 
         <th> </th> 
     </tr> 
-    <queue-item v-for="item in items" :item="item" :key="item.id" @up="up" @down="down"/>    
+    <queue-item v-for="item in orderedQueue" :item="item" :key="item.id" @up="up" @down="down" @remove="remove"/>    
   </div>
   
 </template>
@@ -17,6 +18,7 @@
 <script>
 import Api from '../utils/api.js';
 import QueueItem from './QueueItem.vue';
+import _ from 'lodash';
 
 export default {
   name: 'Queue', 
@@ -37,34 +39,42 @@ export default {
       };
     },
     up(item){
-      let a = Math.max(item.position - 2, 0), b = item.position - 1;
-      [this.items[b], this.items[a]] = [this.items[a], this.items[b]];
-      this.items[a].position = a + 1,this.items[b].position = b + 1;
-      this.queue["queue_item"] = this.items;
-      Api.put("queue", this.queue);
+      let current = item.position - 1, swap = item.position - 2;
+      [this.queue.queue_item[swap].position, this.queue.queue_item[current].position] = [this.queue.queue_item[current].position, this.queue.queue_item[swap].position];
+      Api.put("queue", this.queue).then(result => {
+        this.queue = result.data["queue"];
+      });    
     },
     down(item){
-      let a = Math.min(item.position, this.items.length - 1), b = item.position - 1;
-      [this.items[b], this.items[a]] = [this.items[a], this.items[b]];
-      this.items[a].position = a + 1,this.items[b].position = b + 1;
-      this.queue["queue_item"] = this.items;
-      Api.put("queue", this.queue);
-    }
+      let current = item.position - 1, swap = item.position;
+      let a = 
+      [this.queue.queue_item[swap].position, this.queue.queue_item[current].position] = [this.queue.queue_item[current].position, this.queue.queue_item[swap].position];
+      Api.put("queue", this.queue).then(result => {
+        this.queue = result.data["queue"];
+      });
+    },
+    remove(item){
+      this.queue["queue_item"][item.position-1]["delete_date"] = new Date();
+      Api.put("queue", this.queue).then(result => {
+        this.queue = result.data["queue"];
+      });
+    },
   },
   created(){
-    Api.get("queue/0x08439056572f11ebb62338002586822d").then(result => {
-      this.queue = result.data[0];
-      //this.queue[0]["queue_item"]; 
-      this.items = this.queue["queue_item"].sort((a1, a2) => a1.position < a2.position ? -1: 1);
-      console.log(this.items);
+    Api.get("queue/08439056572F11EBB62338002586822D").then(result => {
+      this.queue = result.data["queue"];
       });
   },
   data: function(){
     return {
       queue: [],
-      items: [],
     };
   }, 
+  computed:{
+    orderedQueue: function () {
+      return _.orderBy(this.queue.queue_item, 'position')
+    },
+  }
 }
 
 

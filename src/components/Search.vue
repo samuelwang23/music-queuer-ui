@@ -24,8 +24,9 @@ export default {
     }
   },
   async mounted(){
-    let {data} = await Api.get('queue/08439056572f11ebb62338002586822d');
-    this.queue = data[0];
+    //let {data} = await 
+    Api.get('queue/08439056572F11EBB62338002586822D').then(response => this.queue = response.data.queue);
+    //this.queue = data[0];
     console.log(this.queue);
   },
   methods:{

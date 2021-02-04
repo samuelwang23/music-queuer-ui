@@ -2,6 +2,7 @@
   
     <tr class="queue-item" >
         <td class = "controls"> <font-awesome-icon icon="caret-up" size="2x" @click="$emit('up', item)"/> <font-awesome-icon icon="caret-down" size="2x" @click="$emit('down', item)" /> </td>
+        <td><font-awesome-icon icon="minus-circle" size="2x" @click="$emit('remove', item)" /></td>
         <td> <span class="order"> {{item.position}} </span> </td>
         <td> <img :src="album.cover" :alt="album.title"></td>
         <td> <a>{{album.title}}</a> </td>
@@ -17,11 +18,10 @@
 import Api from '../utils/api.js';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { faCaretUp, faCaretDown, faMinusCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faCaretUp);
-library.add(faCaretDown);
+library.add(faCaretUp, faCaretDown, faMinusCircle);
 
 export default {
   name: 'QueueItem',
